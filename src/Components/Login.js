@@ -27,6 +27,8 @@ const Login = () => {
                 localStorage.setItem('token', json.token);
                 localStorage.setItem('name', json.name);
                 alert('logged in successfully')
+                navigate('/Home');
+                
         }
     }
     const onChange = (e) => {

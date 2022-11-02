@@ -6,7 +6,7 @@ const Login = () => {
 
     let navigate = useNavigate();
     const changePath = () => {
-        navigate('/Login');
+        navigate('/');
     }
     const [cred, setCred] = useState({ email: '', password: '' });
     const handleSignup = async (e) => {
@@ -21,6 +21,7 @@ const Login = () => {
         const json = await response.json();
         console.log(json);
         alert('User Signed Up');
+        navigate('/')
 
     }
     const onChange = (e) => {

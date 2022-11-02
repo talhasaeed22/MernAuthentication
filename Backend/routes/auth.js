@@ -89,7 +89,7 @@ router.post('/login', [
             }
         }
         const authtoken  = jwt.sign(data, JWT_Secret);
-        res.json({authtoken});
+        res.json({authtoken:authtoken, name:user.name});
     }catch (error) {
         console.error(error.message);
         res.status(500).send("Internal Server Error occurred");
@@ -97,11 +97,11 @@ router.post('/login', [
 })
 
 //Route 3: Get user details using POST using "/api/auth/getuser"
-router.post('/getuser' , async (req, res)=>{
+router.post('/getuser' , fetchusers ,async (req, res, next)=>{
     try {
         const userID = req.user.id;
         const user = await User.findOne({userID}).select("-password")
-        res.send(user);
+        res.send(user.name);
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Internal Server Error occurred");
