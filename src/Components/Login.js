@@ -3,16 +3,16 @@ import { useNavigate } from 'react-router-dom';
 const Login = () => {
     let navigate = useNavigate();
     const url = 'http://localhost:5000';
-    const changePath = ()=>{
+    const changePath = () => {
         navigate('/Signup');
     }
     const [cred, setCred] = useState({ email: '', password: '' });
 
-    const handleLogin = async (e)=>{
-        if(cred.password.length < 5 || cred.email.length === 0){
+    const handleLogin = async (e) => {
+        if (cred.password.length < 5 || cred.email.length === 0) {
             alert("please Enter Valid Email and Password")
             e.preventDefault();
-        }else{
+        } else {
 
             e.preventDefault();
             const response = await fetch(`${url}/api/auth/login`, {
@@ -20,15 +20,20 @@ const Login = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({email:cred.email, password:cred.password})
+                body: JSON.stringify({ email: cred.email, password: cred.password })
             });
             const json = await response.json();
-        
+            console.log(json)
+
+            if (json.success) {
                 localStorage.setItem('token', json.token);
                 localStorage.setItem('name', json.name);
                 alert('logged in successfully')
                 navigate('/Home');
-                
+            }else{
+                alert('user not found')
+            }
+
         }
     }
     const onChange = (e) => {
@@ -53,7 +58,7 @@ const Login = () => {
                     </div>
                 </div>
                 <div className='my-4'>
-                    <span>Dont have an Account?<span className='fw-bold ' style={{color:"blue", cursor:'pointer'}} onClick={changePath}>Signup</span> </span>
+                    <span>Dont have an Account?<span className='fw-bold ' style={{ color: "blue", cursor: 'pointer' }} onClick={changePath}>Signup</span> </span>
                 </div>
             </div>
         </>

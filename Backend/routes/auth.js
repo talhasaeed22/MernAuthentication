@@ -66,6 +66,7 @@ router.post('/login', [
     body('email', 'Enter a Valid Email').isEmail(),
     body('password', 'Password cannot be blank').exists()
 ] , async (req, res)=>{
+    let success = false;
     //Is there are errors return bad request and the errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -89,7 +90,8 @@ router.post('/login', [
             }
         }
         const authtoken  = jwt.sign(data, JWT_Secret);
-        res.json({authtoken:authtoken, name:user.name});
+        success = true;
+        res.json({authtoken:authtoken, name:user.name, success:success});
     }catch (error) {
         console.error(error.message);
         res.status(500).send("Internal Server Error occurred");
